@@ -14,7 +14,7 @@
 <meta name="description" content="Sports news translated for people who have better things to care about.">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -36,8 +36,8 @@
 body {
   background: var(--off-white);
   color: var(--text-dark);
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
@@ -81,23 +81,23 @@ body {
 
 .logo-wrap {
   display: flex;
-  align-items: flex-end;
-  gap: 10px;
+  align-items: center;
+  gap: 14px;
 }
 
 .logo-main {
-  font-family: 'Alfa Slab One', serif;
-  font-size: clamp(44px, 12vw, 72px);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(36px, 9vw, 58px);
   color: var(--white);
-  line-height: 0.85;
-  text-shadow: 3px 3px 0 var(--red-dark), 5px 5px 0 rgba(0,0,0,0.2);
-  letter-spacing: -1px;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .logo-main span {
-  color: var(--blue);
-  -webkit-text-stroke: 2px var(--white);
-  text-shadow: 3px 3px 0 var(--blue-dark);
+  color: var(--white);
+  opacity: 0.85;
 }
 
 .logo-badge {
@@ -115,7 +115,7 @@ body {
 }
 
 .logo-badge-num {
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 20px;
   color: var(--red);
   line-height: 1;
@@ -143,7 +143,7 @@ body {
   display: inline-block;
   background: var(--white);
   color: var(--red);
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 11px;
   padding: 3px 12px;
   border-radius: 20px;
@@ -180,7 +180,7 @@ body {
   color: var(--blue);
   border: none;
   padding: 6px 14px;
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 13px;
   cursor: pointer;
   border-radius: 4px;
@@ -215,7 +215,7 @@ main {
 }
 
 .section-title {
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 18px;
   letter-spacing: 0.5px;
   line-height: 1;
@@ -263,7 +263,7 @@ main {
 }
 
 .ask-label {
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 13px;
   color: var(--red);
   margin-bottom: 8px;
@@ -277,7 +277,7 @@ main {
   background: var(--white);
   border: 3px solid var(--red);
   color: var(--text-dark);
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 15px;
   font-weight: 600;
   padding: 12px 110px 12px 14px;
@@ -298,7 +298,7 @@ main {
   padding: 0 18px;
   background: var(--red);
   color: var(--white);
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 14px;
   letter-spacing: 0.5px;
   border: none;
@@ -330,7 +330,7 @@ main {
 }
 .ai-response.visible { display: block; }
 .ai-response-label {
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 11px;
   color: var(--red);
   letter-spacing: 1px;
@@ -352,7 +352,7 @@ main {
 }
 
 .game-matchup {
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 17px;
   color: var(--white);
   letter-spacing: 0.5px;
@@ -419,7 +419,7 @@ main {
   background: rgba(255,255,255,0.15);
   border: 2px solid rgba(255,255,255,0.3);
   color: var(--white);
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: 800;
   padding: 6px 14px;
@@ -456,7 +456,7 @@ main {
 }
 
 .player-name {
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 16px;
   color: #FFD700;
 }
@@ -520,7 +520,7 @@ main {
 .take-card:active { transform: scale(0.97); }
 
 .take-team {
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 19px;
   color: var(--white);
   letter-spacing: 0.5px;
@@ -557,7 +557,7 @@ main {
   border: none;
   border-radius: 8px;
   padding: 14px;
-  font-family: 'Alfa Slab One', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 15px;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -614,10 +614,24 @@ footer {
   <div class="header-stripe-top"></div>
   <div class="header-inner">
     <div class="logo-wrap">
-      <div class="logo-main">SPORTS<br><span>BALL</span></div>
-      <div class="logo-badge">
-        <div class="logo-badge-num">★</div>
-        <div class="logo-badge-text">Original</div>
+      <!-- SB Ball SVG -->
+      <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <!-- Ball base -->
+        <circle cx="36" cy="36" r="34" fill="#FFFFFF" stroke="#003DA5" stroke-width="3"/>
+        <!-- Seam lines (baseball style) -->
+        <path d="M20 14 Q28 28 20 42" fill="none" stroke="#CC0000" stroke-width="2" stroke-linecap="round"/>
+        <path d="M52 14 Q44 28 52 42" fill="none" stroke="#CC0000" stroke-width="2" stroke-linecap="round"/>
+        <path d="M14 30 Q28 36 14 50" fill="none" stroke="#CC0000" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <path d="M58 30 Q44 36 58 50" fill="none" stroke="#CC0000" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <!-- S -->
+        <text x="19" y="43" font-family="Oswald, sans-serif" font-weight="700" font-size="26" fill="#CC0000">S</text>
+        <!-- B -->
+        <text x="37" y="43" font-family="Oswald, sans-serif" font-weight="700" font-size="26" fill="#003DA5">B</text>
+        <!-- Shine -->
+        <ellipse cx="26" cy="22" rx="6" ry="4" fill="rgba(255,255,255,0.5)" transform="rotate(-30 26 22)"/>
+      </svg>
+      <div>
+        <div class="logo-main">SPORTS BALL</div>
       </div>
     </div>
     <div class="tagline">For people with better things to care about</div>

@@ -1,0 +1,26 @@
+{
+  "name": "Sports Ball",
+  "short_name": "Sports Ball",
+  "description": "Sports news translated for people who have better things to care about.",
+  "start_url": "/sportsball/",
+  "scope": "/sportsball/",
+  "display": "standalone",
+  "background_color": "#CC0000",
+  "theme_color": "#CC0000",
+  "orientation": "portrait",
+  "categories": ["sports", "news", "lifestyle"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

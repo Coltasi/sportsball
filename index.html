@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sports Ball</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#CC0000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Sports Ball">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="description" content="Sports news translated for people who have better things to care about.">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #CC0000;
+  --red-dark: #990000;
+  --red-light: #FF2222;
+  --blue: #003DA5;
+  --blue-dark: #002875;
+  --blue-mid: #1450B8;
+  --white: #FFFFFF;
+  --off-white: #FFF8F0;
+  --cream: #FFF3E0;
+  --text-dark: #1a0a00;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body {
+  background: var(--off-white);
+  color: var(--text-dark);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--red);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-stripe-top {
+  background: var(--white);
+  height: 8px;
+}
+
+.header-stripe-bottom {
+  background: var(--blue);
+  height: 10px;
+}
+
+.header-inner {
+  padding: 14px 20px 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Halftone dots on header */
+.site-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 10px 10px;
+  pointer-events: none;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.logo-main {
+  font-family: 'Alfa Slab One', serif;
+  font-size: clamp(44px, 12vw, 72px);
+  color: var(--white);
+  line-height: 0.85;
+  text-shadow: 3px 3px 0 var(--red-dark), 5px 5px 0 rgba(0,0,0,0.2);
+  letter-spacing: -1px;
+}
+
+.logo-main span {
+  color: var(--blue);
+  -webkit-text-stroke: 2px var(--white);
+  text-shadow: 3px 3px 0 var(--blue-dark);
+}
+
+.logo-badge {
+  background: var(--white);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--blue);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.logo-badge-num {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 20px;
+  color: var(--red);
+  line-height: 1;
+}
+
+.logo-badge-text {
+  font-size: 8px;
+  font-weight: 800;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.tagline {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.75);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.date-pill {
+  display: inline-block;
+  background: var(--white);
+  color: var(--red);
+  font-family: 'Alfa Slab One', serif;
+  font-size: 11px;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-top: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* ── OFFLINE / INSTALL BANNERS ── */
+#offlineNotice {
+  display: none;
+  background: var(--blue);
+  color: var(--white);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px;
+  letter-spacing: 1px;
+}
+#offlineNotice.show { display: block; }
+
+#installBanner {
+  display: none;
+  background: var(--blue);
+  color: var(--white);
+  padding: 10px 16px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#installBanner.show { display: flex; }
+#installBanner span { font-size: 13px; font-weight: 700; }
+#installBtn {
+  background: var(--white);
+  color: var(--blue);
+  border: none;
+  padding: 6px 14px;
+  font-family: 'Alfa Slab One', serif;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+#dismissBanner {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── MAIN LAYOUT ── */
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 0 80px;
+}
+
+/* ── SECTION BLOCKS ── */
+.section-block {
+  margin-bottom: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px 10px;
+}
+
+.section-title {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.section-subtitle {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+/* Red sections */
+.section-red { background: var(--red); color: var(--white); }
+.section-red .section-title { color: var(--white); }
+.section-red .section-subtitle { color: rgba(255,255,255,0.7); }
+
+/* Blue sections */
+.section-blue { background: var(--blue); color: var(--white); }
+.section-blue .section-title { color: var(--white); }
+.section-blue .section-subtitle { color: rgba(255,255,255,0.7); }
+
+/* White sections */
+.section-white { background: var(--white); color: var(--text-dark); border-top: 4px solid var(--red); border-bottom: 4px solid var(--blue); }
+
+/* Stripe dividers */
+.stripe-divider {
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red) 0px, var(--red) 20px,
+    var(--white) 20px, var(--white) 30px,
+    var(--blue) 30px, var(--blue) 50px,
+    var(--white) 50px, var(--white) 60px
+  );
+}
+
+/* ── ASK BAR ── */
+.ask-section {
+  background: var(--cream);
+  padding: 16px 18px;
+  border-bottom: 4px solid var(--blue);
+}
+
+.ask-label {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 13px;
+  color: var(--red);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.ask-bar { position: relative; }
+
+.ask-bar input {
+  width: 100%;
+  background: var(--white);
+  border: 3px solid var(--red);
+  color: var(--text-dark);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 110px 12px 14px;
+  outline: none;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+
+.ask-bar input:focus { border-color: var(--blue); }
+.ask-bar input::placeholder { color: #aaa; font-weight: 600; }
+
+.ask-bar button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  padding: 0 18px;
+  background: var(--red);
+  color: var(--white);
+  font-family: 'Alfa Slab One', serif;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.ask-bar button:active { background: var(--red-dark); }
+.ask-bar button:disabled { background: #ccc; cursor: not-allowed; }
+
+.loading-msg {
+  font-size: 13px;
+  color: var(--blue);
+  font-weight: 700;
+  display: none;
+  padding: 8px 0 0;
+}
+.loading-msg.visible { display: flex; align-items: center; gap: 6px; }
+
+.ai-response {
+  background: var(--white);
+  border: 3px solid var(--blue);
+  border-radius: 6px;
+  padding: 14px;
+  margin-top: 12px;
+  display: none;
+  animation: popIn 0.25s ease;
+}
+.ai-response.visible { display: block; }
+.ai-response-label {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 11px;
+  color: var(--red);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.ai-response-text { font-size: 14px; line-height: 1.65; color: var(--text-dark); font-weight: 600; }
+
+/* ── THE GAME section ── */
+.game-content {
+  padding: 0 18px 16px;
+}
+
+.game-card {
+  background: rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--white);
+}
+
+.game-matchup {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 17px;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.game-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.game-why {
+  font-size: 13px;
+  color: rgba(255,255,255,0.9);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.game-line {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(255,255,255,0.85);
+}
+.game-line strong {
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 3px;
+  color: #FFD700;
+  text-transform: uppercase;
+}
+
+.section-loading {
+  padding: 20px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── RAMIREZ section ── */
+.ramirez-content {
+  padding: 0 18px 16px;
+}
+
+.sport-toggles {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.toggle-btn {
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+  color: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.toggle-btn.active {
+  background: var(--white);
+  color: var(--red);
+  border-color: var(--white);
+}
+
+.toggle-btn:active { opacity: 0.7; }
+
+.team-toggles {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  min-height: 36px;
+}
+
+.player-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border-left: 4px solid #FFD700;
+}
+
+.player-name {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 16px;
+  color: #FFD700;
+}
+
+.player-role {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.player-scoop {
+  font-size: 13px;
+  color: rgba(255,255,255,0.9);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.player-say {
+  margin-top: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(255,255,255,0.8);
+}
+.player-say strong {
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 3px;
+  color: #FFD700;
+  text-transform: uppercase;
+}
+
+/* ── QUICK TAKES (Yankees or Mets style) ── */
+.takes-content {
+  padding: 0 18px 16px;
+}
+
+.takes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.take-card {
+  background: var(--red);
+  border: 3px solid var(--white);
+  border-radius: 8px;
+  padding: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s;
+  user-select: none;
+}
+.take-card:active { transform: scale(0.97); }
+
+.take-team {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 19px;
+  color: var(--white);
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+.take-sport {
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 3px;
+}
+.take-line {
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 10px;
+  line-height: 1.4;
+  font-style: italic;
+}
+.take-line.loaded { font-style: normal; color: var(--white); }
+
+/* ── SHARE ── */
+.share-section {
+  padding: 16px 18px;
+  background: var(--cream);
+  border-top: 4px solid var(--red);
+}
+
+.share-btn {
+  width: 100%;
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'Alfa Slab One', serif;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.share-btn:active { background: var(--blue-dark); }
+
+footer {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #999;
+  letter-spacing: 2px;
+  padding: 20px;
+  text-transform: uppercase;
+  background: var(--off-white);
+}
+
+/* ── SPINNER ── */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0,0,0,0.15);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+.spinner.white {
+  border-color: rgba(255,255,255,0.25);
+  border-top-color: var(--white);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="offlineNotice">⚡ You're offline — AI responses won't load</div>
+<div id="installBanner">
+  <span>📲 Add Sports Ball to your home screen</span>
+  <button id="installBtn">Install</button>
+  <button id="dismissBanner">✕</button>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-stripe-top"></div>
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <div class="logo-main">SPORTS<br><span>BALL</span></div>
+      <div class="logo-badge">
+        <div class="logo-badge-num">★</div>
+        <div class="logo-badge-text">Original</div>
+      </div>
+    </div>
+    <div class="tagline">For people with better things to care about</div>
+    <div class="date-pill" id="dateBadge">Today</div>
+  </div>
+  <div class="header-stripe-bottom"></div>
+</header>
+
+<main>
+
+<!-- ASK BAR -->
+<div class="ask-section">
+  <div class="ask-label">💬 Ask Anything</div>
+  <div class="ask-bar">
+    <input type="text" id="userQuestion" placeholder='"Yankees or Mets?" "who's good right now?"' autocomplete="off" autocorrect="off" />
+    <button id="askBtn" onclick="askQuestion()">Ask</button>
+  </div>
+  <div class="loading-msg" id="loadingMsg">
+    <div class="spinner"></div> Getting you up to speed...
+  </div>
+  <div class="ai-response" id="aiResponse">
+    <div class="ai-response-label">⚡ YOUR CHEAT CODE</div>
+    <div class="ai-response-text" id="aiResponseText"></div>
+  </div>
+</div>
+
+<div class="stripe-divider"></div>
+
+<!-- THE GAME -->
+<div class="section-block section-red">
+  <div class="section-header">
+    <div>
+      <div class="section-title">"Did You See The Game?"</div>
+      <div class="section-subtitle">What game are they even talking about</div>
+    </div>
+  </div>
+  <div class="game-content" id="gameContent">
+    <div class="section-loading" style="color:rgba(255,255,255,0.7)">
+      <div class="spinner white"></div> Finding last night's games...
+    </div>
+  </div>
+</div>
+
+<div class="stripe-divider"></div>
+
+<!-- HOW ABOUT THAT RAMIREZ -->
+<div class="section-block section-blue">
+  <div class="section-header">
+    <div>
+      <div class="section-title">"How About That Ramirez?!"</div>
+      <div class="section-subtitle">Pick a sport, pick a team, sound informed</div>
+    </div>
+  </div>
+  <div class="ramirez-content">
+    <div class="sport-toggles" id="sportToggles"></div>
+    <div class="team-toggles" id="teamToggles"></div>
+    <div id="ramirezContent">
+      <div style="font-size:13px; color:rgba(255,255,255,0.5); font-weight:700;">← Pick a sport to start</div>
+    </div>
+  </div>
+</div>
+
+<div class="stripe-divider"></div>
+
+<!-- QUICK TAKES -->
+<div class="section-block section-white">
+  <div class="section-header">
+    <div>
+      <div class="section-title" style="color:var(--red)">Quick Takes</div>
+      <div class="section-subtitle" style="color:var(--blue); opacity:1">"Yankees or Mets?" — tap any team</div>
+    </div>
+  </div>
+  <div class="takes-content">
+    <div class="takes-grid" id="quickTakes"></div>
+  </div>
+</div>
+
+<div class="stripe-divider"></div>
+
+<!-- SHARE -->
+<div class="share-section">
+  <button class="share-btn" onclick="shareApp()">📤 Share Sports Ball with someone who needs it</button>
+</div>
+
+</main>
+
+<footer>Sports Ball · Know enough to survive · by Coltasi</footer>
+
+<script>
+// ── DATE ──
+const now = new Date();
+document.getElementById('dateBadge').textContent = now.toLocaleDateString('en-US', {
+  weekday: 'short', month: 'short', day: 'numeric'
+});
+
+// ── ONLINE/OFFLINE ──
+function updateOnlineStatus() {
+  document.getElementById('offlineNotice').classList.toggle('show', !navigator.onLine);
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
+// ── SERVICE WORKER ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sportsball/sw.js').catch(() => {});
+  });
+}
+
+// ── PWA INSTALL ──
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(() => {
+    if (!window.matchMedia('(display-mode: standalone)').matches) {
+      document.getElementById('installBanner').classList.add('show');
+    }
+  }, 4000);
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBanner').classList.remove('show');
+});
+document.getElementById('dismissBanner').addEventListener('click', () => {
+  document.getElementById('installBanner').classList.remove('show');
+});
+
+// ── SHARE ──
+function shareApp() {
+  const shareData = {
+    title: 'Sports Ball',
+    text: "Sports news for people who don't follow sports. Actually useful.",
+    url: 'https://coltasi.github.io/sportsball/'
+  };
+  if (navigator.share) {
+    navigator.share(shareData);
+  } else {
+    navigator.clipboard.writeText(shareData.url).then(() => alert('Link copied!'));
+  }
+}
+
+// ── ENTER KEY ──
+document.getElementById('userQuestion').addEventListener('keydown', e => {
+  if (e.key === 'Enter') askQuestion();
+});
+
+// ── CLAUDE API ──
+async function callClaude(systemPrompt, userMessage, useWebSearch = false) {
+  const body = {
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1000,
+    system: systemPrompt,
+    messages: [{ role: 'user', content: userMessage }]
+  };
+  if (useWebSearch) {
+    body.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
+  }
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!resp.ok) throw new Error(`API ${resp.status}`);
+  const data = await resp.json();
+  const blocks = data.content.filter(b => b.type === 'text');
+  if (!blocks.length) throw new Error('No text');
+  return blocks.map(b => b.text).join('\n');
+}
+
+// ── ASK QUESTION ──
+async function askQuestion() {
+  const q = document.getElementById('userQuestion').value.trim();
+  if (!q) return;
+  const btn = document.getElementById('askBtn');
+  const loadingMsg = document.getElementById('loadingMsg');
+  const aiResponse = document.getElementById('aiResponse');
+  const aiResponseText = document.getElementById('aiResponseText');
+  btn.disabled = true;
+  loadingMsg.classList.add('visible');
+  aiResponse.classList.remove('visible');
+  document.getElementById('userQuestion').blur();
+
+  const sys = `You are a sports translator for people who genuinely don't follow sports but need to survive conversations about it. Be helpful, slightly funny, always accurate. Under 150 words. Lead with what's most useful. End with one "rapport line" — something natural to say. Today: ${now.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}. No jargon without explanation.`;
+  try {
+    const resp = await callClaude(sys, q, true);
+    aiResponseText.innerHTML = resp.replace(/\n/g, '<br>');
+    aiResponse.classList.add('visible');
+    aiResponse.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } catch(e) {
+    aiResponseText.textContent = 'Something went wrong. Try again.';
+    aiResponse.classList.add('visible');
+  }
+  loadingMsg.classList.remove('visible');
+  btn.disabled = false;
+}
+
+// ══════════════════════════════════════
+// "THE GAME" SECTION — live web search
+// ══════════════════════════════════════
+async function loadTheGame() {
+  const container = document.getElementById('gameContent');
+  const dateStr = now.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+  const yesterday = new Date(now - 86400000).toLocaleDateString('en-US', {month:'long', day:'numeric'});
+
+  const sys = `You are a sports translator for non-sports people. Search for last night's and today's most talked-about sports games. Return ONLY valid JSON — no markdown, no backticks, no commentary. Format:
+{
+  "games": [
+    {
+      "matchup": "Team A vs Team B",
+      "sport": "NBA",
+      "when": "Last night" or "Tonight 7pm ET" etc,
+      "why_matters": "One sentence why sports fans care (plain english)",
+      "say_this": "One casual sentence the user can drop in conversation"
+    }
+  ]
+}
+Include 3-4 games max. Prioritize games that are most likely to come up in casual conversation today. If a game already happened include the score.`;
+
+  try {
+    const raw = await callClaude(sys, `What are the most talked-about sports games from last night (${yesterday}) and any big ones tonight (${dateStr})? Search for current scores and schedules.`, true);
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(clean);
+
+    container.innerHTML = data.games.map(g => `
+      <div class="game-card">
+        <div class="game-matchup">${g.matchup}</div>
+        <div class="game-time">${g.sport} · ${g.when}</div>
+        <div class="game-why">${g.why_matters}</div>
+        <div class="game-line">
+          <strong>💬 If someone brings it up, say:</strong>
+          "${g.say_this}"
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    container.innerHTML = `<div style="color:rgba(255,255,255,0.6); font-size:13px; padding:0 0 8px;">Couldn't load games — check your connection.</div>`;
+  }
+}
+
+// ══════════════════════════════════════
+// "HOW ABOUT THAT RAMIREZ" SECTION
+// ══════════════════════════════════════
+const sportsTeams = {
+  'NBA': ['Knicks','Lakers','Celtics','Warriors','Bulls','Heat','Nets','Bucks'],
+  'NFL': ['Cowboys','Patriots','Eagles','Chiefs','Giants','49ers','Packers','Steelers'],
+  'MLB': ['Yankees','Mets','Red Sox','Cubs','Dodgers','Braves','Cardinals','Astros'],
+  'NHL': ['Rangers','Bruins','Penguins','Blackhawks','Maple Leafs','Canadiens','Capitals','Avalanche'],
+  'MLS': ['Inter Miami','LAFC','NYCFC','Atlanta Utd','Portland','Seattle','NYC Red Bulls','LA Galaxy']
+};
+
+let selectedSport = null;
+let selectedTeam = null;
+let ramirezCache = {};
+
+function renderSportToggles() {
+  const container = document.getElementById('sportToggles');
+  container.innerHTML = Object.keys(sportsTeams).map(sport => `
+    <button class="toggle-btn${selectedSport === sport ? ' active' : ''}"
+      onclick="selectSport('${sport}')">${sport}</button>
+  `).join('');
+}
+
+function selectSport(sport) {
+  selectedSport = sport;
+  selectedTeam = null;
+  document.getElementById('ramirezContent').innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.5); font-weight:700;">← Pick a team</div>`;
+  renderSportToggles();
+  renderTeamToggles();
+}
+
+function renderTeamToggles() {
+  const container = document.getElementById('teamToggles');
+  if (!selectedSport) { container.innerHTML = ''; return; }
+  container.innerHTML = sportsTeams[selectedSport].map(team => `
+    <button class="toggle-btn${selectedTeam === team ? ' active' : ''}"
+      onclick="selectTeam('${team}')">${team}</button>
+  `).join('');
+}
+
+async function selectTeam(team) {
+  selectedTeam = team;
+  renderTeamToggles();
+  const content = document.getElementById('ramirezContent');
+  const cacheKey = `${selectedSport}:${team}`;
+
+  if (ramirezCache[cacheKey]) {
+    content.innerHTML = ramirezCache[cacheKey];
+    return;
+  }
+
+  content.innerHTML = `<div class="section-loading" style="color:rgba(255,255,255,0.7)"><div class="spinner white"></div> Looking up ${team} players...</div>`;
+
+  const sys = `You are a sports translator for non-sports people. Return ONLY valid JSON — no markdown, no backticks, no commentary. Format:
+{
+  "players": [
+    {
+      "name": "Player Name",
+      "role": "Position or role e.g. Quarterback, Point Guard",
+      "scoop": "One sentence: what's happening with them right now that sports fans are talking about",
+      "say_this": "One casual sentence under 20 words to drop in conversation"
+    }
+  ]
+}
+Include 3 players max. Focus on the most talked-about players right now.`;
+
+  try {
+    const raw = await callClaude(sys, `Who are the 3 most talked-about ${team} ${selectedSport} players right now? What's the current scoop on each?`, true);
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const data = JSON.parse(clean);
+
+    const html = data.players.map(p => `
+      <div class="player-card">
+        <div class="player-name">${p.name}</div>
+        <div class="player-role">${p.role}</div>
+        <div class="player-scoop">${p.scoop}</div>
+        <div class="player-say">
+          <strong>💬 Say this:</strong>
+          "${p.say_this}"
+        </div>
+      </div>
+    `).join('');
+
+    ramirezCache[cacheKey] = html;
+    content.innerHTML = html;
+  } catch(e) {
+    content.innerHTML = `<div style="color:rgba(255,255,255,0.6); font-size:13px;">Couldn't load players — try again.</div>`;
+  }
+}
+
+// ══════════════════════════════════════
+// QUICK TAKES
+// ══════════════════════════════════════
+const quickTeams = [
+  { team: 'Yankees', sport: 'MLB' },
+  { team: 'Knicks', sport: 'NBA' },
+  { team: 'Cowboys', sport: 'NFL' },
+  { team: 'Rangers', sport: 'NHL' },
+  { team: 'Patriots', sport: 'NFL' },
+  { team: 'Mets', sport: 'MLB' },
+];
+
+let takeCache = {};
+
+function renderQuickTakes() {
+  const container = document.getElementById('quickTakes');
+  container.innerHTML = quickTeams.map(t => `
+    <div class="take-card" onclick="loadTake('${t.team}', '${t.sport}', this)">
+      <div class="take-team">${t.team}</div>
+      <div class="take-sport">${t.sport}</div>
+      <div class="take-line" id="take-${t.team.toLowerCase()}">Tap for quick take →</div>
+    </div>
+  `).join('');
+}
+
+async function loadTake(team, sport, card) {
+  const el = document.getElementById(`take-${team.toLowerCase()}`);
+  if (takeCache[team]) {
+    el.textContent = takeCache[team];
+    el.classList.add('loaded');
+    return;
+  }
+  el.textContent = '...';
+  const sys = `Sports cheat code for non-fans. One sentence under 25 words about this team's current vibe. Casual, bar-conversation level. No preamble.`;
+  try {
+    const resp = await callClaude(sys, `One sentence on where the ${team} stand right now in ${sport}.`, true);
+    takeCache[team] = resp;
+    el.textContent = resp;
+    el.classList.add('loaded');
+  } catch(e) {
+    el.textContent = 'Could not load.';
+  }
+}
+
+// ── INIT ──
+renderSportToggles();
+renderTeamToggles();
+renderQuickTakes();
+loadTheGame(); // Auto-loads on page open
+</script>
+</body>
+</html>

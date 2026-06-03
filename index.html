@@ -615,20 +615,27 @@ footer {
   <div class="header-inner">
     <div class="logo-wrap">
       <!-- SB Ball SVG -->
-      <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-        <!-- Ball base -->
-        <circle cx="36" cy="36" r="34" fill="#FFFFFF" stroke="#003DA5" stroke-width="3"/>
-        <!-- Seam lines (baseball style) -->
-        <path d="M20 14 Q28 28 20 42" fill="none" stroke="#CC0000" stroke-width="2" stroke-linecap="round"/>
-        <path d="M52 14 Q44 28 52 42" fill="none" stroke="#CC0000" stroke-width="2" stroke-linecap="round"/>
-        <path d="M14 30 Q28 36 14 50" fill="none" stroke="#CC0000" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-        <path d="M58 30 Q44 36 58 50" fill="none" stroke="#CC0000" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-        <!-- S -->
-        <text x="19" y="43" font-family="Oswald, sans-serif" font-weight="700" font-size="26" fill="#CC0000">S</text>
-        <!-- B -->
-        <text x="37" y="43" font-family="Oswald, sans-serif" font-weight="700" font-size="26" fill="#003DA5">B</text>
+      <svg width="76" height="76" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;filter:drop-shadow(2px 2px 4px rgba(0,0,0,0.3))">
+        <!-- White ball -->
+        <circle cx="38" cy="38" r="35" fill="#FFFFFF"/>
+        <!-- Blue outer ring -->
+        <circle cx="38" cy="38" r="35" fill="none" stroke="#003DA5" stroke-width="4"/>
+        <!-- Red inner ring -->
+        <circle cx="38" cy="38" r="30" fill="none" stroke="#CC0000" stroke-width="1.5"/>
+        <!-- Seam left -->
+        <path d="M30 10 Q36 22 30 38 Q24 54 30 66" fill="none" stroke="#CC0000" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Seam right -->
+        <path d="M46 10 Q40 22 46 38 Q52 54 46 66" fill="none" stroke="#CC0000" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- S white outline -->
+        <text x="10" y="52" font-family="Impact, Arial Black, sans-serif" font-weight="900" font-size="34" fill="white" stroke="white" stroke-width="4" stroke-linejoin="round">S</text>
+        <!-- B white outline -->
+        <text x="36" y="52" font-family="Impact, Arial Black, sans-serif" font-weight="900" font-size="34" fill="white" stroke="white" stroke-width="4" stroke-linejoin="round">B</text>
+        <!-- S red -->
+        <text x="10" y="52" font-family="Impact, Arial Black, sans-serif" font-weight="900" font-size="34" fill="#CC0000">S</text>
+        <!-- B blue -->
+        <text x="36" y="52" font-family="Impact, Arial Black, sans-serif" font-weight="900" font-size="34" fill="#003DA5">B</text>
         <!-- Shine -->
-        <ellipse cx="26" cy="22" rx="6" ry="4" fill="rgba(255,255,255,0.5)" transform="rotate(-30 26 22)"/>
+        <ellipse cx="25" cy="20" rx="8" ry="5" fill="rgba(255,255,255,0.45)" transform="rotate(-20 25 20)"/>
       </svg>
       <div>
         <div class="logo-main">SPORTS BALL</div>
